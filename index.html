@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Ximena</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Tangerine:wght@700&family=Cormorant+SC&display=swap');
+
+  :root{
+    --paper:#EFE3C8;
+    --paper-dark:#E3D3AC;
+    --ink:#3B2A1A;
+    --ink-soft:#5C4530;
+    --wax:#7A2E2A;
+    --wax-dark:#5C2320;
+    --gold:#A9843C;
+    --petal-dry:#A9758C;
+    --petal-dry-2:#B8946A;
+    --leaf-dry:#7C7A52;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    background:
+      radial-gradient(circle at 15% 20%, rgba(120,90,50,0.08) 0%, transparent 40%),
+      radial-gradient(circle at 85% 70%, rgba(120,90,50,0.10) 0%, transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(90,60,30,0.06) 0%, transparent 50%),
+      var(--paper);
+    font-family: 'EB Garamond', serif;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  .envelope-screen{
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    position: relative;
+    padding: 40px 20px;
+  }
+
+  .envelope-wrap{ cursor:pointer; perspective: 1200px; }
+
+  .envelope{
+    width: 300px;
+    height: 200px;
+    background: var(--paper-dark);
+    border: 1px solid rgba(59,42,26,0.35);
+    position: relative;
+    box-shadow: 0 18px 36px rgba(59,42,26,0.35);
+    transition: transform .4s ease;
+  }
+
+  .envelope-wrap:hover .envelope{ transform: translateY(-6px); }
+
+  .envelope::before{
+    content:"";
+    position:absolute; inset:10px;
+    border: 1px solid rgba(59,42,26,0.25);
+    pointer-events:none;
+  }
+
+  .flap{
+    position:absolute;
+    top:0; left:0;
+    width:0; height:0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 108px solid #D8C495;
+    transform-origin: top;
+    transition: transform 0.9s ease;
+    z-index: 3;
+    filter: drop-shadow(0 4px 6px rgba(59,42,26,0.2));
+  }
+
+  .envelope.open .flap{ transform: rotateX(180deg); }
+
+  .seal{
+    position:absolute;
+    top: 68px; left: 50%;
+    transform: translateX(-50%);
+    width: 52px; height: 52px;
+    background: radial-gradient(circle at 35% 30%, #93413B, var(--wax) 60%, var(--wax-dark) 100%);
+    border-radius:50% 50% 50% 46%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cormorant SC', serif;
+    color:#E8D9B0;
+    font-size: 20px;
+    z-index: 4;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.35);
+    transition: opacity .4s ease, transform .4s ease;
+  }
+
+  .envelope.open .seal{ opacity: 0; transform: translateX(-50%) scale(0.6); }
+
+  .hint{
+    text-align:center;
+    margin-top: 26px;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--ink-soft);
+    animation: pulse 2.4s infinite ease-in-out;
+  }
+
+  @keyframes pulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+
+  .scroll-cue{
+    margin-top: 60px;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    opacity:0;
+    letter-spacing: 1px;
+    transition: opacity .6s ease;
+  }
+  .scroll-cue.show{ opacity: 0.75; }
+
+  .letter-section{
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 20px 32px 60px;
+  }
+
+  .letter-card{
+    background: linear-gradient(180deg, #F5EAD1 0%, #EFE0BC 100%);
+    border: 1px solid rgba(59,42,26,0.25);
+    box-shadow: 0 30px 60px rgba(59,42,26,0.18);
+    padding: 56px 44px 64px;
+    position: relative;
+  }
+
+  .letter-card::before{
+    content:"";
+    position:absolute; inset: 14px;
+    border: 1px solid rgba(122,46,42,0.2);
+    pointer-events:none;
+  }
+
+  .letter-title{
+    font-family:'Tangerine', cursive;
+    font-weight: 700;
+    font-size: 4.4rem;
+    text-align:center;
+    color: var(--wax);
+    margin-bottom: 2px;
+    line-height: 1;
+  }
+
+  .letter-sub{
+    text-align:center;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    font-size:1.15rem;
+    letter-spacing: 0.5px;
+  }
+
+  .divider{
+    text-align:center;
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin: 8px 0 48px;
+    letter-spacing: 8px;
+  }
+
+  .paragraph-block{
+    display:flex;
+    align-items:flex-start;
+    gap: 26px;
+    margin-bottom: 52px;
+  }
+
+  .paragraph-block.reverse{ flex-direction: row-reverse; }
+
+  .paragraph-block p{
+    font-size: 1.28rem;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .paragraph-block p::first-letter{
+    font-family:'Tangerine', cursive;
+    font-size: 2.6rem;
+    color: var(--wax);
+    padding-right: 2px;
+  }
+
+  .flower-slot{
+    flex: 0 0 84px;
+    height: 120px;
+    opacity: 0;
+    transform: translateY(24px) rotate(-4deg) scale(0.75);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+
+  .paragraph-block.reverse .flower-slot{ transform: translateY(24px) rotate(4deg) scale(0.75); }
+
+  .flower-slot.bloom{ opacity: 0.92; transform: translateY(0) rotate(-6deg) scale(1); }
+  .paragraph-block.reverse .flower-slot.bloom{ transform: translateY(0) rotate(6deg) scale(1); }
+
+  .signature{
+    text-align:right;
+    font-family:'Tangerine', cursive;
+    font-size: 2.6rem;
+    color: var(--wax);
+    margin-top: 30px;
+  }
+
+  .to-line{
+    text-align:left;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+    font-size: 1.15rem;
+  }
+
+  .postmark-wrap{
+    max-width: 660px;
+    margin: 0 auto 100px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .postmark{
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 2px dashed var(--wax);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color: var(--wax-dark);
+    transform: rotate(-6deg);
+    padding: 20px;
+    text-align:center;
+  }
+
+  .postmark .label{
+    font-family:'Cormorant SC', serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+
+  .postmark .count{
+    font-size: 3.2rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .postmark .unit{
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  .flower{ position: relative; width: 84px; height: 120px; opacity: 0.95; }
+
+  .stem{
+    position:absolute; bottom:0; left:50%;
+    width:3px; height: 64px;
+    background: var(--leaf-dry);
+    transform: translateX(-50%);
+  }
+
+  .leaf{
+    position:absolute; bottom: 22px; left: 50%;
+    width: 22px; height: 12px;
+    background: var(--leaf-dry);
+    border-radius: 0 100% 0 100%;
+    opacity: 0.85;
+  }
+  .leaf.left{ transform: translateX(-100%) rotate(12deg); }
+  .leaf.right{ transform: translateX(20%) rotate(-12deg) scaleX(-1); }
+
+  .bloom-head{
+    position:absolute; top: 0; left: 50%;
+    width: 64px; height: 64px;
+    transform: translateX(-50%);
+    transform-origin: bottom center;
+  }
+
+  .petal{
+    position:absolute; top:50%; left:50%;
+    width: 22px; height: 30px;
+    border-radius: 50%;
+    transform-origin: bottom center;
+    opacity: 0.9;
+  }
+
+  .center-dot{
+    position:absolute; top:50%; left:50%;
+    width: 15px; height:15px;
+    border-radius:50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+  }
+
+  .rose .petal{ background: var(--petal-dry); }
+  .rose .petal:nth-child(1){ transform: translate(-50%,-100%) rotate(0deg); }
+  .rose .petal:nth-child(2){ transform: translate(-50%,-100%) rotate(72deg); }
+  .rose .petal:nth-child(3){ transform: translate(-50%,-100%) rotate(144deg); }
+  .rose .petal:nth-child(4){ transform: translate(-50%,-100%) rotate(216deg); }
+  .rose .petal:nth-child(5){ transform: translate(-50%,-100%) rotate(288deg); }
+  .rose .center-dot{ background: var(--wax-dark); }
+
+  .tulip .petal{ background: var(--petal-dry-2); width: 20px; height: 40px; border-radius: 50% 50% 20% 20%; }
+  .tulip .petal:nth-child(1){ transform: translate(-90%,-90%) rotate(-15deg); }
+  .tulip .petal:nth-child(2){ transform: translate(-50%,-100%) rotate(0deg); }
+  .tulip .petal:nth-child(3){ transform: translate(-10%,-90%) rotate(15deg); }
+  .tulip .center-dot{ display:none; }
+
+  .sunflower .petal{ background: var(--gold); width: 18px; height: 26px; border-radius: 50% 50% 50% 0; }
+  .sunflower .petal:nth-child(1){ transform: translate(-50%,-100%) rotate(0deg); }
+  .sunflower .petal:nth-child(2){ transform: translate(-50%,-100%) rotate(45deg); }
+  .sunflower .petal:nth-child(3){ transform: translate(-50%,-100%) rotate(90deg); }
+  .sunflower .petal:nth-child(4){ transform: translate(-50%,-100%) rotate(135deg); }
+  .sunflower .petal:nth-child(5){ transform: translate(-50%,-100%) rotate(180deg); }
+  .sunflower .petal:nth-child(6){ transform: translate(-50%,-100%) rotate(225deg); }
+  .sunflower .petal:nth-child(7){ transform: translate(-50%,-100%) rotate(270deg); }
+  .sunflower .petal:nth-child(8){ transform: translate(-50%,-100%) rotate(315deg); }
+  .sunflower .center-dot{ background: var(--ink); width:20px; height:20px; }
+
+  .daisy .petal{ background: #E9DDBF; width: 11px; height: 24px; }
+  .daisy .petal:nth-child(1){ transform: translate(-50%,-95%) rotate(0deg); }
+  .daisy .petal:nth-child(2){ transform: translate(-50%,-95%) rotate(30deg); }
+  .daisy .petal:nth-child(3){ transform: translate(-50%,-95%) rotate(60deg); }
+  .daisy .petal:nth-child(4){ transform: translate(-50%,-95%) rotate(90deg); }
+  .daisy .petal:nth-child(5){ transform: translate(-50%,-95%) rotate(120deg); }
+  .daisy .petal:nth-child(6){ transform: translate(-50%,-95%) rotate(150deg); }
+  .daisy .petal:nth-child(7){ transform: translate(-50%,-95%) rotate(180deg); }
+  .daisy .petal:nth-child(8){ transform: translate(-50%,-95%) rotate(210deg); }
+  .daisy .petal:nth-child(9){ transform: translate(-50%,-95%) rotate(240deg); }
+  .daisy .petal:nth-child(10){ transform: translate(-50%,-95%) rotate(270deg); }
+  .daisy .petal:nth-child(11){ transform: translate(-50%,-95%) rotate(300deg); }
+  .daisy .petal:nth-child(12){ transform: translate(-50%,-95%) rotate(330deg); }
+  .daisy .center-dot{ background: var(--gold); }
+
+  @media (max-width: 560px){
+    .paragraph-block, .paragraph-block.reverse{ flex-direction: column; align-items:center; text-align:center; }
+    .flower-slot{ margin: 0 auto; }
+    .signature{ text-align:center; }
+    .letter-card{ padding: 44px 22px 48px; }
+    .letter-title{ font-size: 3.6rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="envelope-screen" id="envelopeScreen">
+  <div class="envelope-wrap" id="envelopeWrap">
+    <div class="envelope" id="envelope">
+      <div class="flap"></div>
+      <div class="seal">XD</div>
+    </div>
+  </div>
+  <p class="hint" id="hint">Toca el sello, Ximena</p>
+  <div class="scroll-cue" id="scrollCue">desliza hacia abajo ↓</div>
+</div>
+
+<div class="letter-section">
+  <div class="letter-card">
+    <h1 class="letter-title">Mi querida Ximena</h1>
+    <p class="letter-sub">una carta escrita como se escribían antes</p>
+    <div class="divider">✦ ✦ ✦</div>
+
+    <p class="to-line">Ximena Díaz, esto es para ti.</p>
+
+    <div class="paragraph-block">
+      <div class="flower-slot" data-flower><div class="flower rose">
+        <div class="stem"></div><div class="leaf left"></div><div class="leaf right"></div>
+        <div class="bloom-head">
+          <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+          <div class="petal"></div><div class="petal"></div><div class="center-dot"></div>
+        </div>
+      </div></div>
+      <p>Aunque el corazón termine roto en mil pedazos, no estoy dispuesto a renunciar a ti. Me entristece pensar que a veces no sabes cuánto te amo, así que he decidido dejarlo escrito, para que no quede solo en mi pecho.</p>
+    </div>
+
+    <div class="paragraph-block reverse">
+      <div class="flower-slot" data-flower><div class="flower tulip">
+        <div class="stem"></div><div class="leaf left"></div><div class="leaf right"></div>
+        <div class="bloom-head"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="center-dot"></div></div>
+      </div></div>
+      <p>No soy bueno con las palabras, al menos no cuando intentan salir de mi boca. Hay tantas cosas que mi corazón quiere decirte y que se quedan a mitad de camino. Por eso te escribo esto: para que lleguen completas, por una vez.</p>
+    </div>
+
+    <div class="paragraph-block">
+      <div class="flower-slot" data-flower><div class="flower sunflower">
+        <div class="stem"></div><div class="leaf left"></div><div class="leaf right"></div>
+        <div class="bloom-head">
+          <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+          <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+          <div class="center-dot"></div>
+        </div>
+      </div></div>
+      <p>Me encanta estar contigo. Me encanta escucharte, mirarte, tocarte, reconocer tu olor entre cualquier otro. Me encanta todo de ti, incluso lo que tú crees que es poco.</p>
+    </div>
+
+    <div class="paragraph-block reverse">
+      <div class="flower-slot" data-flower><div class="flower daisy">
+        <div class="stem"></div><div class="leaf left"></div><div class="leaf right"></div>
+        <div class="bloom-head">
+          <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+          <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+          <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+          <div class="center-dot"></div>
+        </div>
+      </div></div>
+      <p>Sé que no soy una persona muy expresiva, que no hablo mucho, y aun así tú me entiendes. Antes creía que nadie tendría la paciencia de conocerme, mucho menos de amarme. Hasta que llegaste tú.</p>
+    </div>
+
+    <div class="paragraph-block">
+      <div class="flower-slot" data-flower><div class="flower rose">
+        <div class="stem"></div><div class="leaf left"></div><div class="leaf right"></div>
+        <div class="bloom-head">
+          <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+          <div class="petal"></div><div class="petal"></div><div class="center-dot"></div>
+        </div>
+      </div></div>
+      <p>Desde el principio supiste distinguir cuándo estaba bien y cuándo no. Prometo cuidar lo que siento por ti y no tratarlo nunca como algo pasajero. Mi forma de amarte es así: imperfecta, intensa a ratos, silenciosa otras, pero siempre honesta.</p>
+    </div>
+
+    <div class="paragraph-block reverse">
+      <div class="flower-slot" data-flower><div class="flower tulip">
+        <div class="stem"></div><div class="leaf left"></div><div class="leaf right"></div>
+        <div class="bloom-head"><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="center-dot"></div></div>
+      </div></div>
+      <p>Y si algún día dudas de lo que siento, recuerda esto: puede que no siempre tenga las palabras exactas, pero todo lo que hago, de alguna forma, siempre intenta decirte que te amo.</p>
+    </div>
+
+    <p class="signature">Tuyo, siempre</p>
+  </div>
+</div>
+
+<div class="postmark-wrap">
+  <div class="postmark">
+    <div class="label">Te amo desde hace</div>
+    <div class="count" id="dayCount">0</div>
+    <div class="unit">días, y contando</div>
+  </div>
+</div>
+
+<script>
+  const envelope = document.getElementById('envelope');
+  const envelopeWrap = document.getElementById('envelopeWrap');
+  const hint = document.getElementById('hint');
+  const scrollCue = document.getElementById('scrollCue');
+
+  envelopeWrap.addEventListener('click', () => {
+    envelope.classList.add('open');
+    hint.textContent = 'con todo mi cariño...';
+    setTimeout(() => scrollCue.classList.add('show'), 600);
+  });
+
+  const flowerSlots = document.querySelectorAll('.flower-slot');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('bloom'); });
+  }, { threshold: 0.4 });
+  flowerSlots.forEach(slot => observer.observe(slot));
+
+  // ---- CONTADOR DE DIAS ----
+  // Cambia esta fecha por el dia que tu quieras que empiece la cuenta (formato AAAA-MM-DD)
+  const startDate = new Date("2024-01-01");
+  const today = new Date();
+  const diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+  document.getElementById('dayCount').textContent = diffDays >= 0 ? diffDays : 0;
+</script>
+
+</body>
+</html>
